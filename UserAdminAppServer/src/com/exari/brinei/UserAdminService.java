@@ -36,8 +36,13 @@ public class UserAdminService extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String sId = request.getParameter("id"); 
+		if(sId != null && sId.trim().length() > 0) {
+			doDelete(Long.valueOf(sId));
+		}
 		// TODO Auto-generated method stub
 		response.addHeader("content-type", "application/json");
 		response.addHeader("Access-Control-Allow-Origin", "*");
@@ -52,8 +57,12 @@ public class UserAdminService extends HttpServlet {
 		String json = sb.toString();
 		
 		response.getWriter().append(json);
+		
 	}
 
+	private void doDelete(Long id) {
+		users.remove(id);
+	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
