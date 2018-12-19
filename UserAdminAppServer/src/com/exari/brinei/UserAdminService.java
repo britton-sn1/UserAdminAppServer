@@ -34,6 +34,8 @@ public class UserAdminService extends HttpServlet {
 		
 		Arrays.sort(usersArray, ((u1, u2) -> ((u1.getId() - u2.getId()))));
 		
+		users.clear();
+		
 		for(User user : usersArray) {
 			users.put(user.getId(), user);
 		}
