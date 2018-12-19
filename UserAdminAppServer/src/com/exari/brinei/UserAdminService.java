@@ -32,7 +32,7 @@ public class UserAdminService extends HttpServlet {
 				new User("bert", 1211), new User("ralf", 1921), new User("bob", 1501), new User("baldrik", 15),
 				new User("thomas",82) };
 		
-		Arrays.sort(usersArray, ((u1, u2) -> ((u1.getId() - u2.getId()))));
+		Arrays.sort(usersArray, (u1, u2) -> u1.getId() - u2.getId());
 		
 		users.clear();
 		
