@@ -58,7 +58,9 @@ public class UserAdminService extends HttpServlet {
 		users.values().stream().forEach(u -> sb.append("{\"username\" : \"").append(u.getUserName()).append("\" , ")
 				.append("\"id\" : \"").append(u.getId()).append("\"},"));
 		
-		sb.replace(sb.length()-1, sb.length(), "");
+		if(sb.length() > 1) { 
+			sb.replace(sb.length()-1, sb.length(), "");
+		}
 		sb.append("]");
 		
 		String json = sb.toString();
