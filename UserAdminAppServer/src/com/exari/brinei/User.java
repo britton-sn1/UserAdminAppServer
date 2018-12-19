@@ -1,15 +1,15 @@
 package com.exari.brinei;
 
 public class User {
-	private final Long id;
+	private final Integer id;
 	private final String userName;
 	
-	public User(String userName, long id) {
-		this.id = Long.valueOf(id);
+	public User(String userName, int id) {
+		this.id = Integer.valueOf(id);
 		assert(userName != null && !"".equals(userName.trim()));
 		this.userName = userName;
 	}
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 	public String getUserName() {

@@ -1,7 +1,8 @@
 package com.exari.brinei;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UserAdminService extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	Map<Long, User> users = new HashMap<>();
+	Map<Integer, User> users = new LinkedHashMap<>();
 
 	/**
 	 * Default constructor.
@@ -30,6 +31,9 @@ public class UserAdminService extends HttpServlet {
 		User[] usersArray = { new User("admin", 100), new User("user1", 1101), new User("eric", 101),
 				new User("bert", 1211), new User("ralf", 1921), new User("bob", 1501), new User("baldrik", 15),
 				new User("thomas",82) };
+		
+		Arrays.sort(usersArray, ((u1, u2) -> ((u1.getId() - u2.getId()))));
+		
 		for(User user : usersArray) {
 			users.put(user.getId(), user);
 		}
@@ -44,7 +48,7 @@ public class UserAdminService extends HttpServlet {
 			throws ServletException, IOException {
 		String sId = request.getParameter("id"); 
 		if(sId != null && sId.trim().length() > 0) {
-			doDelete(Long.valueOf(sId));
+			doDelete(Integer.valueOf(sId));
 		}
 		String reset= request.getParameter("reset");
 		if("true".equals(reset)){
@@ -69,7 +73,7 @@ public class UserAdminService extends HttpServlet {
 		
 	}
 
-	private void doDelete(Long id) {
+	private void doDelete(Integer id) {
 		users.remove(id);
 	}
 	/**
