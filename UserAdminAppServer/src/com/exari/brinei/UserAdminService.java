@@ -26,7 +26,9 @@ public class UserAdminService extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("[{username: \"admin\", id : 100}, {username: \"user1\", id : 101}]");
+		response.addHeader("content-type","application/json");
+		response.addHeader("Access-Control-Allow-Origin", "*");
+		response.getWriter().append("[{\"username\": \"admin\", \"id\" : \"100\"}, {\"username\": \"user1\", \"id\" : \"1101\"}]");
 	}
 
 	/**
