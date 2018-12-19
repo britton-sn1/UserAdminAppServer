@@ -28,17 +28,21 @@ public class UserAdminService extends HttpServlet {
 	}
 
 	private void loadModel() {
-		User[] usersArray = { new User("admin", 100), new User("user1", 1101), new User("eric", 101),
-				new User("bert", 1211), new User("ralf", 1921), new User("bob", 1501), new User("baldrik", 15),
-				new User("thomas",82) };
-		
-		Arrays.sort(usersArray, (u1, u2) -> u1.getId() - u2.getId());
-		
 		users.clear();
 		
-		for(User user : usersArray) {
-			users.put(user.getId(), user);
-		}
+		Arrays.asList( 
+				new User("admin", 100), 
+				new User("user1", 1101), 
+				new User("eric", 101),
+				new User("bert", 1211), 
+				new User("ralf", 1921), 
+				new User("bob", 1501), 
+				new User("baldrik", 15),
+				new User("thomas",82)
+			)
+		.stream()
+		.sorted((u1, u2) -> u1.getId() - u2.getId())
+		.forEach(u->users.put(u.getId(), u));
 	}
 
 	/**
