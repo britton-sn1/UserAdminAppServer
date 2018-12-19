@@ -22,6 +22,11 @@ public class UserAdminService extends HttpServlet {
 	 * Default constructor.
 	 */
 	public UserAdminService() {
+		loadModel();
+		
+	}
+
+	private void loadModel() {
 		User[] usersArray = { new User("admin", 100), new User("user1", 1101), new User("eric", 101),
 				new User("bert", 1211), new User("ralf", 1921), new User("bob", 1501), new User("baldrik", 15),
 				new User("thomas",82) };
@@ -41,7 +46,11 @@ public class UserAdminService extends HttpServlet {
 		if(sId != null && sId.trim().length() > 0) {
 			doDelete(Long.valueOf(sId));
 		}
-		// TODO Auto-generated method stub
+		String reset= request.getParameter("reset");
+		if("true".equals(reset)){
+			loadModel();
+		}
+
 		response.addHeader("content-type", "application/json");
 		response.addHeader("Access-Control-Allow-Origin", "*");
 		StringBuffer sb = new StringBuffer();
