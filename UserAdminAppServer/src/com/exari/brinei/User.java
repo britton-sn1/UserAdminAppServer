@@ -3,6 +3,7 @@ package com.exari.brinei;
 public class User {
 	private final Integer id;
 	private final String userName;
+	private String email;
 	
 	public User(String userName, int id) {
 		this.id = Integer.valueOf(id);
@@ -28,5 +29,11 @@ public class User {
 		}
 		User otherUser = (User)otherObject;
 		return id.equals(otherUser.id) && userName.equals(otherUser.userName);
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }

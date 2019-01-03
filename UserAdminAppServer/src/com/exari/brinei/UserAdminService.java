@@ -68,10 +68,6 @@ public class UserAdminService extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String sId = request.getParameter("id"); 
-		if(sId != null && sId.trim().length() > 0) {
-			doDelete(Integer.valueOf(sId));
-		}
 		String reset= request.getParameter("reset");
 		if("true".equals(reset)){
 			loadModel();
@@ -81,6 +77,12 @@ public class UserAdminService extends HttpServlet {
 			addNewUser(newUser);
 		}
 
+		generateResponse(request, response);
+		
+		
+	}
+
+	private void generateResponse(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.addHeader("content-type", "application/json");
 		response.addHeader("Access-Control-Allow-Origin", "*");
 		StringBuffer sb = new StringBuffer();
@@ -96,7 +98,6 @@ public class UserAdminService extends HttpServlet {
 		String json = sb.toString();
 		
 		response.getWriter().append(json);
-		
 	}
 
 	private void addNewUser(String newUser) {
@@ -118,4 +119,14 @@ public class UserAdminService extends HttpServlet {
 		doGet(request, response);
 	}
 
+	@Override
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String sId = request.getParameter("id"); 
+		if(sId != null && sId.trim().length() > 0) {
+			doDelete(Integer.valueOf(sId));
+		}
+		
+		generateResponse(request,response);
+	}
 }
