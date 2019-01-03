@@ -1,10 +1,10 @@
 package com.exari.brinei;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -143,12 +143,54 @@ public class UserAdminService extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		response.sendError(405,"Post not supported");
 	}
 
+	@Override
+	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		StringBuffer sb = new StringBuffer();
+		try(InputStream is = request.getInputStream()) {
+			while(true) {
+				int x = is.read();
+				if(x<0) {
+					break;
+				}
+				sb.append((char)x);
+			}
+		}
+		String json = sb.toString();
+		int i = json.indexOf(':');
+		int s = json.indexOf('"', i+1)+1;
+		int e = json.indexOf('"', s);
+		// String username = json.substring(s,e);
+		i = json.indexOf(':',e);
+		s = json.indexOf('"', i+1)+1;
+		e = json.indexOf('"', s);
+		String id = json.substring(s,e);
+		i = json.indexOf(':',e);
+		s = json.indexOf('"', i+1)+1;
+		e = json.indexOf('"', s);
+		String firstName = json.substring(s,e);
+		i = json.indexOf(':',e);
+		s = json.indexOf('"', i+1)+1;
+		e = json.indexOf('"', s);
+		String lastName = json.substring(s,e);
+		i = json.indexOf(':',e);
+		s = json.indexOf('"', i+1)+1;
+		e = json.indexOf('"', s);
+		String email = json.substring(s,e);
+		User user = users.get(Integer.parseInt(id));
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.setEmail(email);
+		
+		
+	}
+	
 	@Override
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
