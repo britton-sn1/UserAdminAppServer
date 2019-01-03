@@ -33,15 +33,14 @@ public class UserAdminService extends HttpServlet {
 		users.clear();
 		
 		Arrays.asList( 
-				new User("admin", 100), 
-				new User("user1", 1101), 
-				new User("eric", 101),
-				new User("bert", 1211),
-				new User("beth", 11), 
-				new User("ralf", 1921), 
-				new User("bob", 1501), 
-				new User("alice", 15),
-				new User("thomas",82)
+				new User("admin", 100, "administrator", "", "admin@x.x"), 
+				new User("user1", 1101, "user1", "", "user1@x.x"), 
+				new User("eric", 101, "Eric", "Marmalade", "eric.marmalade@o.po"),
+				new User("bert", 1211, "Bert", "Cucumber", "b.c@hhhw.wi.co.zi"),
+				new User("beth", 11, "Beth", "Windsor", "e.r@uk.com"), 
+				new User("ralf", 1921, "Ralf", "Dawg", "ralf@dwags.com"), 
+				new User("bob", 1501, "Bob", "Q1", "s.w.o@22.e"), 
+				new User("alice", 15, "Alice", "Ushia", "alice@whw.ieq")
 			)
 		.stream()
 		.sorted((u1, u2) -> u1.getUserName().compareTo(u2.getUserName()))
@@ -67,6 +66,11 @@ public class UserAdminService extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String id=request.getParameter("id");
+		if(id != null && id.trim().length() > 0) {
+			doGet(request, response, id);
+			return;
+		}
 		String reset= request.getParameter("reset");
 		if("true".equals(reset)){
 			loadModel();
@@ -81,13 +85,40 @@ public class UserAdminService extends HttpServlet {
 		
 	}
 
+	private void doGet(HttpServletRequest request, HttpServletResponse response, String id) throws IOException {
+		User user = users.get(Integer.parseInt(id));
+		if(user == null) {
+			response.sendError(404,"User " + id + " not found");
+			return;
+		}
+		response.addHeader("content-type", "application/json");
+		StringBuffer sb = new StringBuffer();
+		
+		getUserJson(user, sb, false);
+		
+		String json = sb.toString();
+		
+		response.getWriter().append(json);
+	}
+
+	private void getUserJson(User user, StringBuffer sb, boolean addCommma) {
+		sb.append("{ \"username\" : \"").append(user.getUserName()).append("\" , ")
+			.append("\"id\" : \"").append(user.getId())
+			.append("\",\"firstName\" :\"").append(user.getFirstName())
+			.append("\",\"lastName\" :\"").append(user.getLastName())
+			.append("\",\"email\" :\"").append(user.getEmail()).append("\"}");
+
+		if(addCommma) {
+			sb.append(",");
+		}
+	}
+
 	private void generateResponse(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.addHeader("content-type", "application/json");
 //		response.addHeader("Access-Control-Allow-Origin", "*");
 		StringBuffer sb = new StringBuffer();
 		sb.append("[");
-		users.values().stream().sorted((u1,u2)->u1.getUserName().compareTo(u2.getUserName())).forEach(u -> sb.append("{\"username\" : \"").append(u.getUserName()).append("\" , ")
-				.append("\"id\" : \"").append(u.getId()).append("\"},"));
+		users.values().stream().sorted((u1,u2)->u1.getUserName().compareTo(u2.getUserName())).forEach(u -> getUserJson(u, sb, true));
 		
 		if(sb.length() > 1) { 
 			sb.replace(sb.length()-1, sb.length(), "");
