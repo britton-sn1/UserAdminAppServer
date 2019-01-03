@@ -27,7 +27,6 @@ public class UserAdminService extends HttpServlet {
 	 */
 	public UserAdminService() {
 		loadModel();
-		
 	}
 
 	private void loadModel() {
@@ -84,7 +83,7 @@ public class UserAdminService extends HttpServlet {
 
 	private void generateResponse(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.addHeader("content-type", "application/json");
-		response.addHeader("Access-Control-Allow-Origin", "*");
+//		response.addHeader("Access-Control-Allow-Origin", "*");
 		StringBuffer sb = new StringBuffer();
 		sb.append("[");
 		users.values().stream().sorted((u1,u2)->u1.getUserName().compareTo(u2.getUserName())).forEach(u -> sb.append("{\"username\" : \"").append(u.getUserName()).append("\" , ")
