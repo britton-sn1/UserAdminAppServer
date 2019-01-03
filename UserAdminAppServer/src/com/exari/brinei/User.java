@@ -3,9 +3,9 @@ package com.exari.brinei;
 public class User {
 	private final Integer id;
 	private final String userName;
-	private String firstName;
-	private String lastName;
-	private String email;
+	private String firstName="";
+	private String lastName="";
+	private String email="";
 
 	public String getFirstName() {
 		return firstName;
